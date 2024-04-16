@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import { NavBar } from './layout/NavBarAndFooter/NavBar';
 import { ExploreTopBook } from './layout/HomePage/ExploreTopBook';
+import { Carousel } from './layout/HomePage/Carousel';
 
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
     <div>
       <NavBar />
       <ExploreTopBook/>
+      <Carousel/>
     </div>
     
   );
