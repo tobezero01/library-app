@@ -1,12 +1,14 @@
 import { ReturnBook } from "./ReturnBook"
 import { useEffect , useState } from "react"
 import BookModel from "../../../models/BookModel"
+import { SpinnerLoading } from "../../Utils/SpinnerLoading";
 
 export const Carousel = () => {
     const [books, setBooks] = useState<BookModel[]>([]) ;
     const [isLoading, setIsLoading] = useState(true);
     const [httpError, setHttpError] = useState(null);
 
+    // lấy dữ liệu từ backend
     useEffect(() => {
         const fetchBooks = async() => {
             const baseUrl :string = "http://localhost:8080/api/books";
@@ -50,7 +52,7 @@ export const Carousel = () => {
     if(isLoading) {
         return(
             <div className="container m-5">
-                <p>Loading...</p>
+                <SpinnerLoading/>
             </div>
         )
     }
