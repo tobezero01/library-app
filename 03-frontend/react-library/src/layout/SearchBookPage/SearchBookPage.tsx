@@ -8,6 +8,8 @@ export const SearchBookPage = () => {
     const [books, setBooks] = useState<BookModel[]>([]) ;
     const [isLoading, setIsLoading] = useState(true);
     const [httpError, setHttpError] = useState(null);
+    
+    // pagination
     const [currentPage, setCurrentPage] = useState(1);
     const [booksPerPage] = useState(5);
     const [totalAmountOfBooks, setTotalAmountOfBooks] = useState(0);
@@ -27,7 +29,8 @@ export const SearchBookPage = () => {
             if(searchUrl === '') {
                 url =  `${baseUrl}?page=${currentPage-1}&size=${booksPerPage}`;
             }else {
-                url =  baseUrl + searchUrl;
+                let searchWithPage = searchUrl.replace('<pageNumber>', `${currentPage-1}`)
+                url =  baseUrl + searchWithPage;
             }
             const response = await fetch(url);
 
@@ -84,14 +87,17 @@ export const SearchBookPage = () => {
     }
 
     const searchHandleChange = () => {
+        setCurrentPage(1);
         if(search ==='') {
             setSearchUrl('');
         }else {
-            setSearchUrl(`/search/findByTitleContaining?title=${search}&page0&size=${booksPerPage}`)
+            setSearchUrl(`/search/findByTitleContaining?title=${search}&page=<pageNumber>&size=${booksPerPage}`)
         }
+        setCategorySelection('Book category');
     }
 
     const categoryField = (value : string) => {
+        setCurrentPage(1);
         if (
             value.toLowerCase() === 'fe' ||
             value.toLowerCase() === 'be' ||
@@ -99,10 +105,10 @@ export const SearchBookPage = () => {
             value.toLowerCase() === 'devops' 
         ) {
             setCategorySelection(value); 
-            setSearchUrl(`/search/findByCategory?category=${value}&page=0&size=${booksPerPage}`);
+            setSearchUrl(`/search/findByCategory?category=${value}&page=<pageNumber>&size=${booksPerPage}`);
         } else {
             setCategorySelection('All');
-            setSearchUrl(`?page=0&size=${booksPerPage}`);
+            setSearchUrl(`?page=<pageNumber>&size=${booksPerPage}`);
         }
     }
 
