@@ -1,8 +1,68 @@
 import { ReturnBook } from "./ReturnBook"
-
+import { useEffect , useState } from "react"
+import BookModel from "../../../models/BookModel"
 
 export const Carousel = () => {
+    const [books, setBooks] = useState<BookModel[]>([]) ;
+    const [isLoading, setIsLoading] = useState(true);
+    const [httpError, setHttpError] = useState(null);
+
+    useEffect(() => {
+        const fetchBooks = async() => {
+            const baseUrl :string = "http://localhost:8080/api/books";
+            
+            const url : string = `${baseUrl}?page=0&size=9`;
+            
+            const response = await fetch(url);
+
+            if(!response.ok) {
+                throw new Error("Something went wrong");
+            }
+
+            const reponseJson = await response.json();
+            
+            const reponseData = reponseJson._embedded.books;
+
+            const loadedBooks : BookModel[] = [];
+
+            for (const key in reponseData) {
+                loadedBooks.push({
+                    id : reponseData[key].id,
+                    title : reponseData[key].title,
+                    author : reponseData[key].author,
+                    description : reponseData[key].description,
+                    copies : reponseData[key].copies,
+                    copiesAvailable : reponseData[key].copiesAvailable,
+                    category : reponseData[key].category,
+                    img : reponseData[key].img,
+                });
+            }
+            setBooks(loadedBooks);
+            setIsLoading(false);
+        };
+
+        fetchBooks().catch((error : any) => {
+            setIsLoading(false);
+            setHttpError(error.message);
+        })
+    },[]);
+
+    if(isLoading) {
+        return(
+            <div className="container m-5">
+                <p>Loading...</p>
+            </div>
+        )
+    }
+    if(httpError) {
+        return(
+            <div className="container m-5">
+                <p>{httpError}</p>
+            </div>
+        )
+    }
     return (
+
         <div className="container mt-5" style={{height :550}}>
             <div className="homepage-carousel-title">
                 <h3 >Find your next "I stay up too late reading" Book</h3>
