@@ -50,7 +50,7 @@ export const CheckoutAndReviewBox: React.FC<{ book: BookModel | undefined, mobil
                         books checked out
                     </p>
                     <hr />
-                    {props.book && props.book.copiesAvailable && props.book.copiesAvailable > 0 ?
+                    {props.book && props.book.copiesAvailable && Number(props.book.copiesAvailable) > 0 ?
                         <h4 className='text-success'>
                             Available
                         </h4>
