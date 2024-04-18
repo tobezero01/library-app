@@ -3,6 +3,7 @@ import BookModel from "../../models/BookModel";
 import { SpinnerLoading } from "../Utils/SpinnerLoading";
 import { isBoolean } from "util";
 import { StarsReview } from "../Utils/StarsReview";
+import { CheckoutAndReviewBox } from "./CheckoutAndReviewBox";
 
 export const BookCheckOutPage = () => {
     const [book, setBook] = useState<BookModel>();
@@ -80,6 +81,7 @@ export const BookCheckOutPage = () => {
                             <StarsReview rating={4} size={32}/>
                         </div>
                     </div>
+                    <CheckoutAndReviewBox book = { book} mobile = {false}/>
                 </div>
                 <hr/>
 
