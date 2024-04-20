@@ -11,11 +11,22 @@ import org.springframework.web.bind.annotation.*;
 public class BookController {
     private BookService bookService;
 
+    @GetMapping("/secure/currentloans/count")
+    public int currentLoansCount() {
+        String userEmail = "testsuer@gmail.com";
+
+        return bookService.currentLoansCount(userEmail);
+    }
     @Autowired
     public BookController(BookService bookService) {
         this.bookService = bookService;
     }
+    @GetMapping("/secure/ischeckedout/byuser")
+    public Boolean checkoutBookByUser(@RequestParam Long bookId) {
+        String userEmail = "testsuer@gmail.com";
 
+        return bookService.checkoutBookByUser(userEmail, bookId);
+    }
     @PutMapping("/secure/checkout")
     public Book checkoutBook(@RequestParam Long bookId) throws Exception {
         String userEmail = "testuser@gmail.com";
