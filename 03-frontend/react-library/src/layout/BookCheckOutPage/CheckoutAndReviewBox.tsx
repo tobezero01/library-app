@@ -3,26 +3,26 @@ import BookModel from "../../models/BookModel";
 import { LeaveAReview } from "../Utils/LeaveAReview";
 
 export const CheckoutAndReviewBox: React.FC<{ book: BookModel | undefined, mobile: boolean, 
-    currentLoansCount: number,
-    // isAuthenticated: any, 
-    // isCheckedOut: boolean, 
-    // checkoutBook: any, 
+    currentLoansCount: number, 
+    isAuthenticated: any, 
+    isCheckedOut: boolean, 
+    checkoutBook: any, 
     // isReviewLeft: boolean, 
     // submitReview: any 
-    }> = (props) => {
+}> = (props) => {
 
-    // function buttonRender() {
-    //     if (props.isAuthenticated) {
-    //         if (!props.isCheckedOut && props.currentLoansCount < 5) {
-    //             return (<button onClick={() => props.checkoutBook()} className='btn btn-success btn-lg'>Checkout</button>)
-    //         } else if (props.isCheckedOut) {
-    //             return (<p><b>Book checked out. Enjoy!</b></p>)
-    //         } else if (!props.isCheckedOut) {
-    //             return (<p className='text-danger'>Too many books checked out.</p>)
-    //         }
-    //     }
-    //     return (<Link to={'/login'} className='btn btn-success btn-lg'>Sign in</Link>)
-    // }
+    function buttonRender() {
+        if (props.isAuthenticated) {
+            if (!props.isCheckedOut && props.currentLoansCount < 5) {
+                return (<button onClick={() => props.checkoutBook()} className='btn btn-success btn-lg'>Checkout</button>)
+            } else if (props.isCheckedOut) {
+                return (<p><b>Book checked out. Enjoy!</b></p>)
+            } else if (!props.isCheckedOut) {
+                return (<p className='text-danger'>Too many books checked out.</p>)
+            }
+        }
+        return (<Link to={'/login'} className='btn btn-success btn-lg'>Sign in</Link>)
+    }
 
     // function reviewRender() {
     //     if (props.isAuthenticated && !props.isReviewLeft) {
@@ -75,12 +75,12 @@ export const CheckoutAndReviewBox: React.FC<{ book: BookModel | undefined, mobil
                         </p>
                     </div>
                 </div>
-                {/* {buttonRender()}
+                {buttonRender()}
                 <hr />
                 <p className='mt-3'>
                     This number can change until placing order has been complete.
                 </p>
-                {reviewRender()} */}
+                {/* {reviewRender()}  */}
             </div>
         </div>
     );

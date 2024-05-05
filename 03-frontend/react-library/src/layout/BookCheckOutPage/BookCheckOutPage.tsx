@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react"
 import BookModel from "../../models/BookModel";
 import { SpinnerLoading } from "../Utils/SpinnerLoading";
+import { isBoolean } from "util";
 import { StarsReview } from "../Utils/StarsReview";
 import { CheckoutAndReviewBox } from "./CheckoutAndReviewBox";
+import ReviewModel from "../../models/ReviewModel";
 import { LatestReviews } from "./LatestReviews";
 import { useOktaAuth } from "@okta/okta-react";
 
@@ -15,16 +17,24 @@ export const BookCheckOutPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [httpError, setHttpError] = useState(null);
 
+    
 
     // review state
     const [reviews, setReviews] = useState<ReviewModel[]>([]);
     const [totalStars, setTotalStars] = useState(0);
     const [isloadingReview, setIsLoadingReview] = useState(true);
 
+    // loan count state
+    const [currentLoansCount, setCurrentLoansCount] = useState(0); 
+    const[isLoadingCurrentLoansCount, setIsLoadingCurrentLoansCount] = useState(true);
 
+    // IS Book checkout ? 
+    const [isCheckedOut, setIsCheckedOut] = useState(false);
+    const [isLoadingBookCheckOut, setIsLoadingBookCheckOut] = useState(true);
 
     const bookId = (window.location.pathname).split("/")[2];
 
+    // lấy dữ liệu từ backend
     useEffect(() => {
         const fetchBook = async() => {
             const baseUrl :string = `http://localhost:8080/api/books/${bookId}`;
@@ -99,33 +109,63 @@ export const BookCheckOutPage = () => {
         })
     },[]);
 
+
     useEffect(() => {
-        const fetchUserCurrentLoansCount = async () => {
+        const fetchUserCurrentLoanCount = async () => {  
             if (authState && authState.isAuthenticated) {
                 const url = `http://localhost:8080/api/books/secure/currentloans/count`;
                 const requestOptions = {
-                    method: 'GET',
-                    headers: { 
-                        Authorization: `Bearer ${authState.accessToken?.accessToken}`,
+                    method : 'GET',
+                    headers : {
+                        Authorization : `Bearer ${authState.accessToken?.accessToken}`,
                         'Content-Type': 'application/json'
-                     }
-                };
-                const currentLoansCountResponse = await fetch(url, requestOptions);
-                if (!currentLoansCountResponse.ok)  {
-                    throw new Error('Something went wrong!');
+                    } 
+                } ;
+                const currentLoansCountResponse = await	fetch(url, requestOptions);
+                if (!currentLoansCountResponse.ok) {
+                    throw new Error("Something went wrong");
                 }
                 const currentLoansCountResponseJson = await currentLoansCountResponse.json();
                 setCurrentLoansCount(currentLoansCountResponseJson);
             }
             setIsLoadingCurrentLoansCount(false);
         }
-        fetchUserCurrentLoansCount().catch((error: any) => {
+
+        fetchUserCurrentLoanCount().catch((error : any) => { 
             setIsLoadingCurrentLoansCount(false);
             setHttpError(error.message);
-        })
-    }, [authState, isCheckedOut]);
+        });
+    },[authState]);
 
-    if(isLoading || isloadingReview || isLoadingCurrentLoansCount || isLoadingBookCheckedOut) {
+    useEffect(() => {
+        const fetchUserCheckOutBook = async () => {
+            if (authState && authState.isAuthenticated) {
+                const url = `http://localhost:8080/api/books/secure/ischeckout/byuser/?bookId=${bookId}`;
+                const requestOptions = {
+                    method : 'GET',
+                    headers : {
+                        Authorization : `Bearer ${authState.accessToken?.accessToken}`,
+                        'Content-Type': 'application/json'
+                    } 
+                } ;
+                const bookCheckOut = await fetch(url, requestOptions);
+                if (!bookCheckOut.ok) {
+                    throw new Error("Something went wrong");
+
+                }
+                const bookCheckOutResponseJson = await bookCheckOut.json();
+                setIsCheckedOut(bookCheckOutResponseJson);
+            }
+            setIsLoadingBookCheckOut(false);
+        }
+
+        fetchUserCheckOutBook().catch((error : any) => {
+            setIsLoadingBookCheckOut(false);
+            setHttpError(error.message);
+        });
+    },[authState]);
+
+    if(isLoading || isloadingReview || isLoadingCurrentLoansCount || isLoadingBookCheckOut) {
         return(
             <div className="container m-5">
                 <SpinnerLoading/>
@@ -193,6 +233,7 @@ export const BookCheckOutPage = () => {
                 <hr />
                 <LatestReviews reviews={reviews} bookId={book?.id} mobile={true} />
             </div>
+
         </div>
     );
 }

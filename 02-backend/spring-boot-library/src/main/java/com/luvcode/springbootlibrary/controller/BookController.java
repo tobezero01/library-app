@@ -17,6 +17,7 @@ public class BookController {
 
         return bookService.currentLoansCount(userEmail);
     }
+
     @Autowired
     public BookController(BookService bookService) {
         this.bookService = bookService;
