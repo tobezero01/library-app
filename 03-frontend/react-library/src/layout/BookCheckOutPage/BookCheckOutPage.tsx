@@ -24,6 +24,11 @@ export const BookCheckOutPage = () => {
     const [totalStars, setTotalStars] = useState(0);
     const [isloadingReview, setIsLoadingReview] = useState(true);
 
+    //
+    const [isReviewLeft, setIsReviewLeft] = useState(false);
+    const [isLoadingUserReview, setIsLoadingUserReview] = useState(true);
+
+
     // loan count state
     const [currentLoansCount, setCurrentLoansCount] = useState(0); 
     const[isLoadingCurrentLoansCount, setIsLoadingCurrentLoansCount] = useState(true);
@@ -109,6 +114,31 @@ export const BookCheckOutPage = () => {
         })
     },[]);
 
+    useEffect(() => {
+        const fetchUserReviewBook = async () => {
+            if (authState && authState.isAuthenticated) {
+                const url = `http://localhost:8080/api/reviews/secure/user/book/?bookId=${bookId}`;
+                const requestOptions = {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${authState.accessToken?.accessToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                };
+                const userReview = await fetch(url, requestOptions);
+                if (!userReview.ok) {
+                    throw new Error('Something went wrong');
+                }
+                const userReviewResponseJson = await userReview.json();
+                setIsReviewLeft(userReviewResponseJson);
+            }
+            setIsLoadingUserReview(false);
+        }
+        fetchUserReviewBook().catch((error: any) => {
+            setIsLoadingUserReview(false);
+            setHttpError(error.message);
+        })
+    }, [authState]);
 
     useEffect(() => {
         const fetchUserCurrentLoanCount = async () => {  
@@ -166,7 +196,7 @@ export const BookCheckOutPage = () => {
     },[authState]);
 
 
-    if(isLoading || isloadingReview || isLoadingCurrentLoansCount || isLoadingBookCheckOut) {
+    if(isLoading || isloadingReview || isLoadingCurrentLoansCount || isLoadingBookCheckOut || isLoadingUserReview ) {
         return(
             <div className="container m-5">
                 <SpinnerLoading/>
