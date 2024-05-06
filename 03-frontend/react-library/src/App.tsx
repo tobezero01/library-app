@@ -5,12 +5,13 @@ import { Footer } from './layout/NavBarAndFooter/footer';
 import { Homepage } from './layout/HomePage/Homepage';
 import { SearchBookPage } from './layout/SearchBookPage/SearchBookPage';
 import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
-import { BookCheckOutPage } from './layout/BookCheckOutPage/BookCheckOutPage';
+
 import { oktaConfig } from './lib/oktaConfig';
 import { OktaAuth, toRelativeUrl } from '@okta/okta-auth-js';
 import { LoginCallback, Security } from '@okta/okta-react';
 import LoginWidget from './Auth/LoginWidget';
 import { ReviewListPage } from './layout/BookCheckOutPage/ReviewListPage/ReviewListPage';
+import { BookCheckoutPage } from './layout/BookCheckOutPage/BookCheckOutPage';
 
 const oktaAuth = new OktaAuth(oktaConfig);
 
@@ -46,9 +47,8 @@ export const App =() => {
             </Route>
 
             <Route path='/checkout/:bookId'>
-              <BookCheckOutPage />
+              <BookCheckoutPage />
             </Route>
-
 
             <Route path='/login' render={
             () => <LoginWidget config={oktaConfig} /> 
