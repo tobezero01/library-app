@@ -39,7 +39,7 @@ export const AddNewBook = () => {
         }
     }
 
-    
+    // submit new book
     async function submitNewBook() {
         const url = `http://localhost:8080/api/admin/secure/add/book`;
         if (authState?.isAuthenticated && title !== '' && author !== '' && category !== 'Category' 
