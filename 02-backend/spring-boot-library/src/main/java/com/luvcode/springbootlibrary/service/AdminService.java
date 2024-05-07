@@ -68,16 +68,16 @@ public class AdminService {
         bookRepository.save(book);
     }
 
-//    public void deleteBook(Long bookId) throws Exception {
-//
-//        Optional<Book> book = bookRepository.findById(bookId);
-//
-//        if (!book.isPresent()) {
-//            throw new Exception("Book not found");
-//        }
-//
-//        bookRepository.delete(book.get());
-//        checkoutRepository.deleteAllByBookId(bookId);
-//        reviewRepository.deleteAllByBookId(bookId);
-//    }
+    public void deleteBook(Long bookId) throws Exception {
+
+        Optional<Book> book = bookRepository.findById(bookId);
+
+        if (!book.isPresent()) {
+            throw new Exception("Book not found");
+        }
+
+        bookRepository.delete(book.get());
+        checkoutRepository.deleteAllByBookId(bookId);
+        reviewRepository.deleteAllByBookId(bookId);
+    }
 }
