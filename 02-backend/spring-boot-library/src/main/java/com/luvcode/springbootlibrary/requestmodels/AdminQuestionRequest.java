@@ -1,2 +1,11 @@
-package com.luvcode.springbootlibrary.requestmodels;public class AdminQuestionRequest {
+package com.luvcode.springbootlibrary.requestmodels;
+
+import lombok.Data;
+
+@Data
+public class AdminQuestionRequest {
+
+    private Long id;
+
+    private String response;
 }
