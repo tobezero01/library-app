@@ -1,6 +1,7 @@
 package com.luvcode.springbootlibrary.controller;
 
 import com.luvcode.springbootlibrary.entity.Message;
+import com.luvcode.springbootlibrary.requestmodels.AdminQuestionRequest;
 import com.luvcode.springbootlibrary.service.MessagesService;
 import com.luvcode.springbootlibrary.utils.ExtractJWT;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,15 +26,15 @@ public class MessagesController {
         messagesService.postMessage(messageRequest, userEmail);
     }
 
-//    @PutMapping("/secure/admin/message")
-//    public void putMessage(@RequestHeader(value="Authorization") String token,
-//                           @RequestBody AdminQuestionRequest adminQuestionRequest) throws Exception {
-//        String userEmail = ExtractJWT.payloadJWTExtraction(token, "\"sub\"");
-//        String admin = ExtractJWT.payloadJWTExtraction(token, "\"userType\"");
-//        if (admin == null || !admin.equals("admin")) {
-//            throw new Exception("Administration page only.");
-//        }
-//        messagesService.putMessage(adminQuestionRequest, userEmail);
-//    }
+    @PutMapping("/secure/admin/message")
+    public void putMessage(@RequestHeader(value="Authorization") String token,
+                           @RequestBody AdminQuestionRequest adminQuestionRequest) throws Exception {
+        String userEmail = ExtractJWT.payloadJWTExtraction(token, "\"sub\"");
+        String admin = ExtractJWT.payloadJWTExtraction(token, "\"userType\"");
+        if (admin == null || !admin.equals("admin")) {
+            throw new Exception("Administration page only.");
+        }
+        messagesService.putMessage(adminQuestionRequest, userEmail);
+    }
 
 }
