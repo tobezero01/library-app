@@ -35,7 +35,8 @@ export const ChangeQuantityOfBook: React.FC<{ book: BookModel, deleteBook: any }
         setQuantity(quantity + 1);
         setRemaining(remaining + 1);
     }
-
+    
+    // add decrease function
     async function decreaseQuantity() {
         const url = `http://localhost:8080/api/admin/secure/decrease/book/quantity/?bookId=${props.book?.id}`;
         const requestOptions = {
