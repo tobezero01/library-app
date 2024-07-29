@@ -9,7 +9,6 @@ export const Carousel = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [httpError, setHttpError] = useState(null);
 
-    // lấy dữ liệu từ backend
     useEffect(() => {
         const fetchBooks = async() => {
             const baseUrl :string = "http://localhost:8080/api/books";
@@ -123,5 +122,4 @@ export const Carousel = () => {
             </div>
         
     );
-
 }
