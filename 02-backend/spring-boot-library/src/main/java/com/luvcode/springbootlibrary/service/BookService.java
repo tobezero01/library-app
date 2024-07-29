@@ -112,7 +112,7 @@ public class BookService {
         book.get().setCopiesAvailable(book.get().getCopiesAvailable() + 1);
 
         bookRepository.save(book.get());
-        checkoutRepository.deleteById(validateCheckout.getId());
+        //checkoutRepository.deleteById(validateCheckout.getId());
 
         History history = new History(
                 userEmail,

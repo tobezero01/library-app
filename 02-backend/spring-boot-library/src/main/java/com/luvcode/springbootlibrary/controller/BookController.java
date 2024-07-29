@@ -12,6 +12,7 @@ import java.util.List;
 @CrossOrigin("http://localhost:3000")
 @RestController
 @RequestMapping("/api/books")
+
 public class BookController {
     private BookService bookService;
 
@@ -32,7 +33,6 @@ public class BookController {
         String userEmail = ExtractJWT.payloadJWTExtraction(token, "\"sub\"");
         return bookService.currentLoansCount(userEmail);
     }
-
 
     @GetMapping("/secure/ischeckedout/byuser")
     public Boolean checkoutBookByUser(@RequestHeader(value = "Authorization") String token,

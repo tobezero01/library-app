@@ -49,7 +49,9 @@ export const ManageLibraryPage = () => {
                         >
                             Change quantity
                         </button>
-                        <button onClick={messagesClickFunction} className='nav-link' id='nav-messages-tab' data-bs-toggle='tab' 
+                        <button 
+                        onClick={messagesClickFunction} 
+                        className='nav-link' id='nav-messages-tab' data-bs-toggle='tab' 
                             data-bs-target='#nav-messages' type='button' role='tab' aria-controls='nav-messages' 
                             aria-selected='false'
                         >

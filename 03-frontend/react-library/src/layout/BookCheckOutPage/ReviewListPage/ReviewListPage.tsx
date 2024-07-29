@@ -83,14 +83,14 @@ export const ReviewListPage = () => {
 
 
     return (
-        <div className="container mt-5">
+        <div className="container mt-5 d-block">
             <div>
                 <h3>Comments: ({reviews.length})</h3>
             </div>
             <p>
                 {indexOfFirstReview + 1} to {lastItem} of {totalAmountOfReviews} items:
             </p>
-            <div className="row">
+            <div className="row d-block">
                 {reviews.map(review => (
                     <Review review={review} key={review.id} />
                 ))}

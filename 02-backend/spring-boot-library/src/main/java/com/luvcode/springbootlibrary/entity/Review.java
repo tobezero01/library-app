@@ -32,12 +32,4 @@ public class Review {
     private String reviewDescription;
 
 
-
-
-
-
-
-
-
-
 }

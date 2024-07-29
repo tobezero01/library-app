@@ -113,31 +113,33 @@ export const BookCheckoutPage = () => {
         })
     }, [isReviewLeft]);
 
-    useEffect(() => {
-        const fetchUserReviewBook = async () => {
-            if (authState && authState.isAuthenticated) {
-                const url = `http://localhost:8080/api/reviews/secure/user/book/?bookId=${bookId}`;
-                const requestOptions = {
-                    method: 'GET',
-                    headers: {
-                        Authorization: `Bearer ${authState.accessToken?.accessToken}`,
-                        'Content-Type': 'application/json'
-                    }
-                };
-                const userReview = await fetch(url, requestOptions);
-                if (!userReview.ok) {
-                    throw new Error('Something went wrong');
-                }
-                const userReviewResponseJson = await userReview.json();
-                setIsReviewLeft(userReviewResponseJson);
-            }
-            setIsLoadingUserReview(false);
-        }
-        fetchUserReviewBook().catch((error: any) => {
-            setIsLoadingUserReview(false);
-            setHttpError(error.message);
-        })
-    }, [authState]);
+
+    //error
+    // useEffect(() => {
+    //     const fetchUserReviewBook = async () => {
+    //         if (authState && authState.isAuthenticated) {
+    //             const url = `http://localhost:8080/api/reviews/secure/user/book/?bookId=${bookId}`;
+    //             const requestOptions = {
+    //                 method: 'GET',
+    //                 headers: {
+    //                     Authorization: `Bearer ${authState.accessToken?.accessToken}`,
+    //                     'Content-Type': 'application/json'
+    //                 }
+    //             };
+    //             const userReview = await fetch(url, requestOptions);
+    //             if (!userReview.ok) {
+    //                 throw new Error('Something went wrong');
+    //             }
+    //             const userReviewResponseJson = await userReview.json();
+    //             setIsReviewLeft(userReviewResponseJson);
+    //         }
+    //         setIsLoadingUserReview(false);
+    //     }
+    //     fetchUserReviewBook().catch((error: any) => {
+    //         setIsLoadingUserReview(false);
+    //         setHttpError(error.message);
+    //     })
+    // }, [authState]);
 
     useEffect(() => {
         const fetchUserCurrentLoansCount = async () => {
@@ -166,22 +168,36 @@ export const BookCheckoutPage = () => {
     }, [authState, isCheckedOut]);
 
 
-                if (!bookCheckedOut.ok) {
-                    throw new Error('Something went wrong!');
-                }
+    //  error 
+    // useEffect(() => {
+    //     const fetchUserCheckedOutBook = async () => {
+    //         if (authState && authState.isAuthenticated) {
+    //             const url = `http://localhost:8080/api/books/secure/ischeckedout/byuser/?bookId=${bookId}`;
+    //             const requestOptions = {
+    //                 method: 'GET',
+    //                 headers: {
+    //                     Authorization: `Bearer ${authState.accessToken?.accessToken}`,
+    //                     'Content-Type': 'application/json'
+    //                 }
+    //             };
+    //             const bookCheckedOut = await fetch(url, requestOptions);
 
-                const bookCheckedOutResponseJson = await bookCheckedOut.json();
-                setIsCheckedOut(bookCheckedOutResponseJson);
-            }
-            setIsLoadingBookCheckedOut(false);
-        }
-        fetchUserCheckedOutBook().catch((error: any) => {
-            setIsLoadingBookCheckedOut(false);
-            setHttpError(error.message);
-        })
-    }, [authState]);
+    //             if (!bookCheckedOut.ok) {
+    //                 throw new Error('Something went wrong!');
+    //             }
 
-    if (isLoading || isLoadingReview || isLoadingCurrentLoansCount || isLoadingBookCheckedOut || isLoadingUserReview) {
+    //             const bookCheckedOutResponseJson = await bookCheckedOut.json();
+    //             setIsCheckedOut(bookCheckedOutResponseJson);
+    //         }
+    //         setIsLoadingBookCheckedOut(false);
+    //     }
+    //     fetchUserCheckedOutBook().catch((error: any) => {
+    //         setIsLoadingBookCheckedOut(false);
+    //         setHttpError(error.message);
+    //     })
+    // }, [authState]);
+
+    if (isLoading || isLoadingReview || isLoadingCurrentLoansCount  ) {
         return (
             <SpinnerLoading />
         )
@@ -191,6 +207,7 @@ export const BookCheckoutPage = () => {
         return (
             <div className='container m-5'>
                 <p>{httpError}</p>
+                
             </div>
         )
     }
@@ -263,7 +280,7 @@ export const BookCheckoutPage = () => {
                 <LatestReviews reviews={reviews} bookId={book?.id} mobile={false} />
             </div>
             <div className='container d-lg-none mt-5'>
-                <div className='d-flex justify-content-center alighn-items-center'>
+                <div className='d-flex justify-content-center align-items-center'>
                     {book?.img ?
                         <img src={book?.img} width='226' height='349' alt='Book' />
                         :
