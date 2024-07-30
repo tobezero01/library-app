@@ -63,7 +63,6 @@ export const Carousel = () => {
             </div>
         )
     }
-
     return (
         <div className='container mt-5' style={{ height: 550 }}>
             <div className='homepage-carousel-title'>
